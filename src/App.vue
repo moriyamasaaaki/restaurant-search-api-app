@@ -11,20 +11,16 @@
     </v-app-bar>
 
     <v-content>
-      <SearchList />
+      <router-view></router-view>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import SearchList from "./components/SearchList";
-
 export default {
   name: "App",
 
-  components: {
-    SearchList
-  },
+  components: {},
 
   data: () => ({
     //
