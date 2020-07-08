@@ -39,6 +39,10 @@ export default {
     };
   },
 
+  created() {
+    this.loadShops();
+  },
+
   methods: {
     loadShops() {
       this.shops = null;
