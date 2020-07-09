@@ -12,13 +12,29 @@
     <v-alert v-if="error_msg" type="error">{{ error_msg }}</v-alert>
 
     <v-row v-if="shops">
-      <v-col cols="12" xs="12" sm="6" md="4" lg="3" v-for="(shop, index) in shops" :key="index">
-        <v-card>
-          <v-img v-if="!shop.image_url.shop_image1" src="img/unnamed.png" width="100%" />
-          <v-img v-else :src="shop.image_url.shop_image1" />
-          <v-card-title>{{ shop.name }}</v-card-title>
-          <v-chip>{{ shop.code.areaname_s }}</v-chip>
-        </v-card>
+      <v-col
+        cols="12"
+        xs="12"
+        sm="6"
+        md="4"
+        lg="3"
+        v-for="(shop, index) in shops"
+        :key="index"
+      >
+        <router-link
+          :to="{ name: 'RestaurantDetail', params: { restaurantId: shop.id } }"
+        >
+          <v-card>
+            <v-img
+              v-if="!shop.image_url.shop_image1"
+              src="/img/unnamed.png"
+              width="100%"
+            />
+            <v-img v-else :src="shop.image_url.shop_image1" />
+            <v-card-title>{{ shop.name }}</v-card-title>
+            <v-chip>{{ shop.code.areaname_s }}</v-chip>
+          </v-card>
+        </router-link>
       </v-col>
     </v-row>
   </v-container>
@@ -28,8 +44,6 @@
 import restaurant from "@/api/restaurant.js";
 
 export default {
-  name: "HelloWorld",
-
   data() {
     return {
       shopName: null,
@@ -37,6 +51,10 @@ export default {
       error_msg: null,
       loading: false
     };
+  },
+
+  created() {
+    // this.loadShops();
   },
 
   methods: {
@@ -57,7 +75,6 @@ export default {
         .finally(() => {
           this.loading = false;
         });
-      this.shopName = "";
     }
   }
 };

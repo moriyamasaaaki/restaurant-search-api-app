@@ -5,7 +5,7 @@ export default {
     // Promiseを返す
     return new Promise((resolve, reject) => {
       axios
-        .get(process.env.VUE_APP_GURUNAVI_URL, {
+        .get(process.env.VUE_APP_GURUNAVI_URL + "&name=" + shopName, {
           // 店名検索
           params: {
             name: shopName
