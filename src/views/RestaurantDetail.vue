@@ -46,7 +46,11 @@ export default {
   methods: {
     getRestaurant(restaurantId) {
       axios
-        .get(process.env.VUE_APP_GURUNAVI_URL + "&id=" + restaurantId)
+        .get(process.env.VUE_APP_GURUNAVI_URLs, {
+          params: {
+            id: restaurantId
+          }
+        })
         .then(res => {
           this.restaurants = res.data.rest;
           console.log(this.restaurants);
@@ -56,6 +60,9 @@ export default {
               // console.log(this.restaurant.name);
             }
           });
+        })
+        .catch(error => {
+          console.error(error);
         });
     }
     // getRestaurant(restaurantId) {

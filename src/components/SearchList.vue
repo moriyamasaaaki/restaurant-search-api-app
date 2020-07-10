@@ -2,21 +2,40 @@
   <v-container>
     <v-row>
       <v-col cols="12" xs="10" sm="8" md="6" lg="4">
-        <v-text-field label="店名・ジャンル" v-model="shopName" />
+        <v-select
+          v-model="select"
+          :items="categories"
+          item-text="categoryName"
+          item-value="id"
+          label="現在地からの距離"
+        ></v-select>
       </v-col>
       <v-col cols="2">
         <v-btn @click="loadShops" :loading="loading">検索</v-btn>
       </v-col>
     </v-row>
     <p>{{ latitude }}、{{ longitude }}</p>
-
     <v-alert v-if="error_msg" type="error">{{ error_msg }}</v-alert>
 
     <v-row v-if="shops">
-      <v-col cols="12" xs="12" sm="6" md="4" lg="3" v-for="(shop, index) in shops" :key="index">
-        <router-link :to="{ name: 'RestaurantDetail', params: { restaurantId: shop.id } }">
+      <v-col
+        cols="12"
+        xs="12"
+        sm="6"
+        md="4"
+        lg="3"
+        v-for="(shop, index) in shops"
+        :key="index"
+      >
+        <router-link
+          :to="{ name: 'RestaurantDetail', params: { restaurantId: shop.id } }"
+        >
           <v-card>
-            <v-img v-if="!shop.image_url.shop_image1" src="/img/unnamed.png" width="100%" />
+            <v-img
+              v-if="!shop.image_url.shop_image1"
+              src="/img/unnamed.png"
+              width="100%"
+            />
             <v-img v-else :src="shop.image_url.shop_image1" />
             <v-card-title>{{ shop.name }}</v-card-title>
             <v-chip>{{ shop.code.areaname_s }}</v-chip>
@@ -34,6 +53,14 @@ export default {
   data() {
     return {
       shopName: null,
+      select: null,
+      categories: [
+        { categoryName: "300m", id: 1 },
+        { categoryName: "500m", id: 2 },
+        { categoryName: "1km", id: 3 },
+        { categoryName: "2km", id: 4 },
+        { categoryName: "3km", id: 5 }
+      ],
       shops: null,
       error_msg: null,
       loading: false,
@@ -48,6 +75,7 @@ export default {
 
   created() {
     // this.loadShops();
+    // this.getLocation();
   },
 
   methods: {
@@ -57,9 +85,11 @@ export default {
       this.loading = true;
 
       restaurant
-        .searchShops(this.shopName)
+        .searchShops(this.shopName, this.select)
         .then(res => {
           this.shops = res;
+          console.log(this.shopName);
+          console.log(this.select);
           console.log(this.shops);
         })
         .catch(err => {

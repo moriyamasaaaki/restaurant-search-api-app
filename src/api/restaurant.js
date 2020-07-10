@@ -1,14 +1,15 @@
 import axios from "axios";
 
 export default {
-  searchShops(shopName) {
+  searchShops(shopName, select) {
     // Promiseを返す
     return new Promise((resolve, reject) => {
       axios
-        .get(process.env.VUE_APP_GURUNAVI_URL + "&name=" + shopName, {
+        .get(process.env.VUE_APP_GURUNAVI_URL, {
           // 店名検索
           params: {
-            name: shopName
+            name: shopName,
+            range: select
           }
         })
         // 検索結果をresolve
