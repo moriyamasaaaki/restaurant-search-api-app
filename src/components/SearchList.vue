@@ -8,28 +8,15 @@
         <v-btn @click="loadShops" :loading="loading">検索</v-btn>
       </v-col>
     </v-row>
+    <p>{{ latitude }}、{{ longitude }}</p>
 
     <v-alert v-if="error_msg" type="error">{{ error_msg }}</v-alert>
 
     <v-row v-if="shops">
-      <v-col
-        cols="12"
-        xs="12"
-        sm="6"
-        md="4"
-        lg="3"
-        v-for="(shop, index) in shops"
-        :key="index"
-      >
-        <router-link
-          :to="{ name: 'RestaurantDetail', params: { restaurantId: shop.id } }"
-        >
+      <v-col cols="12" xs="12" sm="6" md="4" lg="3" v-for="(shop, index) in shops" :key="index">
+        <router-link :to="{ name: 'RestaurantDetail', params: { restaurantId: shop.id } }">
           <v-card>
-            <v-img
-              v-if="!shop.image_url.shop_image1"
-              src="/img/unnamed.png"
-              width="100%"
-            />
+            <v-img v-if="!shop.image_url.shop_image1" src="/img/unnamed.png" width="100%" />
             <v-img v-else :src="shop.image_url.shop_image1" />
             <v-card-title>{{ shop.name }}</v-card-title>
             <v-chip>{{ shop.code.areaname_s }}</v-chip>
@@ -49,8 +36,14 @@ export default {
       shopName: null,
       shops: null,
       error_msg: null,
-      loading: false
+      loading: false,
+      latitude: 0,
+      longitude: 0
     };
+  },
+
+  mounted() {
+    this.getLocation();
   },
 
   created() {
@@ -75,6 +68,18 @@ export default {
         .finally(() => {
           this.loading = false;
         });
+    },
+    getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+          let coords = position.coords;
+          this.latitude = coords.latitude;
+          this.longitude = coords.longitude;
+          console.log(this.latitude, this.longitude);
+        });
+      } else {
+        alert("現在位置が取得できませんでした");
+      }
     }
   }
 };
