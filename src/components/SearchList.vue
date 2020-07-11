@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       name: null,
-      range: null,
+      range: 2,
       categories: [
         { categoryName: "300m", id: 1 },
         { categoryName: "500m", id: 2 },
