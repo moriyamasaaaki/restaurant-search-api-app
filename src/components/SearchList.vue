@@ -25,7 +25,7 @@
         sm="6"
         md="4"
         lg="3"
-        v-for="(shop, index) in shops"
+        v-for="(shop, index) in shopLists"
         :key="index"
       >
         <router-link
@@ -44,12 +44,18 @@
         </router-link>
       </v-col>
     </v-row>
+    <div v-if="shopLists" class="text-center">
+      <v-pagination
+        v-model="page"
+        :length="length"
+        @input="pageChange"
+      ></v-pagination>
+    </div>
   </v-container>
 </template>
 
 <script>
 import restaurant from "@/api/restaurant.js";
-
 export default {
   data() {
     return {
@@ -65,8 +71,14 @@ export default {
       shops: null,
       error_msg: null,
       loading: false,
+
       latitude: 0,
-      longitude: 0
+      longitude: 0,
+
+      page: 1,
+      length: 0,
+      shopLists: null,
+      pageSize: 10
     };
   },
 
@@ -88,6 +100,12 @@ export default {
         .searchShops(this.name, this.range, this.latitude, this.longitude)
         .then(res => {
           this.shops = res;
+          this.length = Math.ceil(this.shops.length / this.pageSize);
+
+          this.shopLists = this.shops.slice(
+            this.pageSize * (this.page - 1),
+            this.pageSize * this.page
+          );
           console.log(this.name);
           console.log(this.range);
           console.log(this.shops);
@@ -112,6 +130,12 @@ export default {
       } else {
         alert("現在位置が取得できませんでした");
       }
+    },
+    pageChange(pageNumber) {
+      this.shopLists = this.shops.slice(
+        this.pageSize * (pageNumber - 1),
+        this.pageSize * pageNumber
+      );
     }
   }
 };
