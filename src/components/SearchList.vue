@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div class="searchList">
     <v-row>
       <v-col cols="12" xs="10" sm="8" md="6" lg="4">
         <v-text-field label="店名・ジャンル" v-model="name" />
@@ -18,7 +18,7 @@
     <p>{{ latitude }}、{{ longitude }}</p>
     <v-alert v-if="error_msg" type="error">{{ error_msg }}</v-alert>
 
-    <v-row v-if="shops">
+    <!-- <v-row v-if="shops">
       <v-col
         cols="12"
         xs="12"
@@ -27,31 +27,25 @@
         lg="3"
         v-for="(shop, index) in shopLists"
         :key="index"
-      >
-        <router-link
-          :to="{ name: 'RestaurantDetail', params: { restaurantId: shop.id } }"
-        >
-          <v-card>
-            <v-img
-              v-if="!shop.image_url.shop_image1"
-              src="/img/unnamed.png"
-              width="100%"
-            />
-            <v-img v-else :src="shop.image_url.shop_image1" />
-            <v-card-title>{{ shop.name }}</v-card-title>
-            <v-chip>{{ shop.code.areaname_s }}</v-chip>
-          </v-card>
+    >-->
+    <div class="searchList-items" v-if="shopLists">
+      <v-card class="card" v-for="(shop, index) in shopLists" :key="index">
+        <router-link :to="{ name: 'RestaurantDetail', params: { restaurantId: shop.id } }">
+          <img class="img" v-if="!shop.image_url.shop_image1" src="/img/unnamed.png" width="100%" />
+          <img v-else :src="shop.image_url.shop_image1" />
+          <div class="card-body">
+            <v-card-title class="title">{{ shop.name }}</v-card-title>
+            <div class="my-4 subtitle-1">{{ shop.code.areaname_s }}</div>
+          </div>
         </router-link>
-      </v-col>
-    </v-row>
-    <div v-if="shopLists" class="text-center">
-      <v-pagination
-        v-model="page"
-        :length="length"
-        @input="pageChange"
-      ></v-pagination>
+      </v-card>
+      <!-- </v-col>
+      </v-row>-->
     </div>
-  </v-container>
+    <div v-if="shopLists" class="text-center">
+      <v-pagination v-model="page" :length="length" @input="pageChange"></v-pagination>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -71,6 +65,7 @@ export default {
       shops: null,
       error_msg: null,
       loading: false,
+      hover: null,
 
       latitude: 0,
       longitude: 0,
@@ -140,3 +135,49 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.searchList-items {
+  width: 100%;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, 350px);
+  margin: 0 auto 80px;
+  justify-content: center;
+}
+.card {
+  display: flex;
+  flex-flow: column;
+  box-sizing: border-box;
+  &:hover {
+    opacity: .7;
+  }
+}
+
+.card-body {
+  flex: 1;
+  padding: 8px;
+}
+
+img {
+  width: 100%;
+  height: 250px;
+}
+
+.searchList {
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.6);
+}
+.subtitle-1 {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.title {
+  color: rgba(0, 0, 0, 0.87);
+}
+</style>
