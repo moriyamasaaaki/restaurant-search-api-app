@@ -1,15 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <router-link to="/" class="app-title">
-          <span>レストラン検索</span>
-        </router-link>
-      </div>
-      <v-spacer></v-spacer>
-      <span class="mr-2">Home</span>
-    </v-app-bar>
-
+    <Header />
     <v-content>
       <router-view></router-view>
     </v-content>
@@ -17,21 +8,12 @@
 </template>
 
 <script>
+import Header from "@/components/Header";
 export default {
   name: "App",
 
-  components: {},
-
-  data: () => ({
-    //
-  })
+  components: {
+    Header
+  }
 };
 </script>
-
-<style lang="scss" scoped>
-.app-title {
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-}
-</style>
