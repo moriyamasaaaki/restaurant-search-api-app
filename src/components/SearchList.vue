@@ -2,8 +2,9 @@
   <v-container>
     <v-row>
       <v-col cols="12" xs="10" sm="8" md="6" lg="4">
+        <v-text-field label="店名・ジャンル" v-model="name" />
         <v-select
-          v-model="select"
+          v-model="range"
           :items="categories"
           item-text="categoryName"
           item-value="id"
@@ -52,8 +53,8 @@ import restaurant from "@/api/restaurant.js";
 export default {
   data() {
     return {
-      shopName: null,
-      select: null,
+      name: null,
+      range: null,
       categories: [
         { categoryName: "300m", id: 1 },
         { categoryName: "500m", id: 2 },
@@ -83,14 +84,15 @@ export default {
       this.shops = null;
       this.error_msg = null;
       this.loading = true;
-
       restaurant
-        .searchShops(this.shopName, this.select)
+        .searchShops(this.name, this.range, this.latitude, this.longitude)
         .then(res => {
           this.shops = res;
-          console.log(this.shopName);
-          console.log(this.select);
+          console.log(this.name);
+          console.log(this.range);
           console.log(this.shops);
+          console.log(this.latitude);
+          console.log(this.longitude);
         })
         .catch(err => {
           this.error_msg = err;
