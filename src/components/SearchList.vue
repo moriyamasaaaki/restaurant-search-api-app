@@ -28,10 +28,20 @@
         v-for="(shop, index) in shopLists"
         :key="index"
     >-->
+    <p v-if="shopLists" class="text-center hit">
+      全{{ shops.length }}件ヒットしました。
+    </p>
     <div class="searchList-items" v-if="shopLists">
       <v-card class="card" v-for="(shop, index) in shopLists" :key="index">
-        <router-link :to="{ name: 'RestaurantDetail', params: { restaurantId: shop.id } }">
-          <img class="img" v-if="!shop.image_url.shop_image1" src="/img/unnamed.png" width="100%" />
+        <router-link
+          :to="{ name: 'RestaurantDetail', params: { restaurantId: shop.id } }"
+        >
+          <img
+            class="img"
+            v-if="!shop.image_url.shop_image1"
+            src="/img/unnamed.png"
+            width="100%"
+          />
           <img v-else :src="shop.image_url.shop_image1" />
           <div class="card-body">
             <v-card-title class="title">{{ shop.name }}</v-card-title>
@@ -43,7 +53,11 @@
       </v-row>-->
     </div>
     <div v-if="shopLists" class="text-center">
-      <v-pagination v-model="page" :length="length" @input="pageChange"></v-pagination>
+      <v-pagination
+        v-model="page"
+        :length="length"
+        @input="pageChange"
+      ></v-pagination>
     </div>
   </div>
 </template>
@@ -150,7 +164,7 @@ export default {
   flex-flow: column;
   box-sizing: border-box;
   &:hover {
-    opacity: .7;
+    opacity: 0.7;
   }
 }
 
@@ -179,5 +193,9 @@ a {
 
 .title {
   color: rgba(0, 0, 0, 0.87);
+}
+
+.hit {
+  font-weight: 600;
 }
 </style>
