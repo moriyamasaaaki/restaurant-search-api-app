@@ -65,30 +65,6 @@ export default {
           console.error(error);
         });
     }
-    // getRestaurant(restaurantId) {
-    //   this.restaurant = null;
-    //   restaurants.searchShops(this.restaurantName).then(res => {
-    //     this.restaurant = res;
-    //     // let match = null;
-    //     // console.log(this.restaurant);
-    //     this.restaurant.forEach(restaurant => {
-    //       if (restaurant.id == restaurantId) {
-    //         console.log(restaurant.name);
-    //         this.restaurant = restaurant;
-    //         this.name = restaurant.name;
-    //         this.tel = restaurant.tel;
-    //         this.opentime = restaurant.opentime;
-    //         // this.restaurant.push(restaurant);
-    //         console.log(restaurant);
-    //         console.log(this.restaurant);
-    //         console.log(this.tel);
-    //         console.log(this.opentime);
-    //       }
-    //     //   return this.restaurant;
-    //     });
-    //     return this.restaurant;
-    //   });
-    // }
   }
 };
 </script>
