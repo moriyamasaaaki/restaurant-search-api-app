@@ -167,6 +167,10 @@ export default {
         this.pageSize * (pageNumber - 1),
         this.pageSize * pageNumber
       );
+      window.scrollTo({
+        top: 0,
+        behavior: "auto"
+      });
     },
     getRestaurant(restaurantName, restaurantRange, latitude, longitude) {
       axios
