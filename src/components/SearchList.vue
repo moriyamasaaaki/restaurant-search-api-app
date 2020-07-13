@@ -17,42 +17,48 @@
     </v-row>
     <p>{{ latitude }}、{{ longitude }}</p>
     <v-alert v-if="error_msg" type="error">{{ error_msg }}</v-alert>
-
-    <!-- <v-row v-if="shops">
+    <!-- <v-row v-if="restaurants">
       <v-col
         cols="12"
         xs="12"
         sm="6"
         md="4"
         lg="3"
-        v-for="(shop, index) in shopLists"
+        v-for="(restaurant, index) in restaurantLists"
         :key="index"
     >-->
-    <p v-if="shopLists" class="text-center hit">
-      全{{ shops.length }}件ヒットしました。
+    <p v-if="restaurants" class="text-center hit">
+      全{{ restaurants.length }}件ヒットしました。
     </p>
-    <div class="searchList-items" v-if="shopLists">
-      <v-card class="card" v-for="(shop, index) in shopLists" :key="index">
+    <div class="searchList-items" v-if="restaurants">
+      <v-card
+        class="card"
+        v-for="(restaurant, index) in restaurantLists"
+        :key="index"
+      >
         <router-link
-          :to="{ name: 'RestaurantDetail', params: { restaurantId: shop.id } }"
+          :to="{
+            name: 'RestaurantDetail',
+            params: { restaurantId: restaurant.id }
+          }"
         >
           <img
             class="img"
-            v-if="!shop.image_url.shop_image1"
+            v-if="!restaurant.image_url.shop_image1"
             src="/img/unnamed.png"
             width="100%"
           />
-          <img v-else :src="shop.image_url.shop_image1" />
+          <img v-else :src="restaurant.image_url.shop_image1" />
           <div class="card-body">
-            <v-card-title class="title">{{ shop.name }}</v-card-title>
-            <div class="my-4 subtitle-1">{{ shop.code.areaname_s }}</div>
+            <v-card-title class="title">{{ restaurant.name }}</v-card-title>
+            <div class="my-4 subtitle-1">{{ restaurant.code.areaname_s }}</div>
           </div>
         </router-link>
       </v-card>
       <!-- </v-col>
       </v-row>-->
     </div>
-    <div v-if="shopLists" class="text-center">
+    <div v-if="restaurantLists" class="text-center">
       <v-pagination
         v-model="page"
         :length="length"
@@ -64,6 +70,8 @@
 
 <script>
 import restaurant from "@/api/restaurant.js";
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -76,7 +84,8 @@ export default {
         { categoryName: "2km", id: 4 },
         { categoryName: "3km", id: 5 }
       ],
-      shops: null,
+      restaurants: null,
+      restaurant: null,
       error_msg: null,
       loading: false,
       hover: null,
@@ -86,7 +95,7 @@ export default {
 
       page: 1,
       length: 0,
-      shopLists: null,
+      restaurantLists: null,
       pageSize: 10
     };
   },
@@ -95,29 +104,42 @@ export default {
     this.getLocation();
   },
 
-  created() {
-    // this.loadShops();
-    // this.getLocation();
+  async created() {
+    let restaurantName = this.$route.params.restaurantName;
+    let restaurantRange = this.$route.params.restaurantRange;
+    let latitude = this.$route.params.latitude;
+    let longitude = this.$route.params.longitude;
+    this.restaurants = await this.getRestaurant(
+      restaurantName,
+      restaurantRange,
+      latitude,
+      longitude
+    );
   },
 
   methods: {
     loadShops() {
-      this.shops = null;
+      this.restaurants = null;
       this.error_msg = null;
       this.loading = true;
       restaurant
         .searchShops(this.name, this.range, this.latitude, this.longitude)
         .then(res => {
-          this.shops = res;
-          this.length = Math.ceil(this.shops.length / this.pageSize);
+          this.restaurants = res;
+          let url = `/restaurants/${this.name}/${this.range}/${this.latitude}/${this.longitude}`;
+          const encoded = encodeURI(url);
+          console.log(encoded);
 
-          this.shopLists = this.shops.slice(
+          this.$router.push({ path: encoded });
+          this.length = Math.ceil(this.restaurants.length / this.pageSize);
+
+          this.restaurantLists = this.restaurants.slice(
             this.pageSize * (this.page - 1),
             this.pageSize * this.page
           );
           console.log(this.name);
           console.log(this.range);
-          console.log(this.shops);
+          console.log(this.restaurants);
           console.log(this.latitude);
           console.log(this.longitude);
         })
@@ -141,10 +163,33 @@ export default {
       }
     },
     pageChange(pageNumber) {
-      this.shopLists = this.shops.slice(
+      this.restaurantLists = this.restaurants.slice(
         this.pageSize * (pageNumber - 1),
         this.pageSize * pageNumber
       );
+    },
+    getRestaurant(restaurantName, restaurantRange, latitude, longitude) {
+      axios
+        .get(process.env.VUE_APP_GURUNAVI_URLs, {
+          params: {
+            name: restaurantName,
+            range: restaurantRange,
+            latitude,
+            longitude
+          }
+        })
+        .then(res => {
+          this.restaurants = res.data.rest;
+          this.length = Math.ceil(this.restaurants.length / this.pageSize);
+          this.restaurantLists = this.restaurants.slice(
+            this.pageSize * (this.page - 1),
+            this.pageSize * this.page
+          );
+          console.log(this.restaurants);
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
   }
 };

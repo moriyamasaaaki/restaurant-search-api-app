@@ -12,11 +12,14 @@ export default {
             range,
             latitude,
             longitude
+          },
+          headers: {
+            "content-type": "application/x-www-form-urlencoded;charset=utf-8"
           }
         })
         // 検索結果をresolve
-        .then(shops => {
-          resolve(shops.data.rest);
+        .then(restaurants => {
+          resolve(restaurants.data.rest);
         })
         // エラーハンドリング
         .catch(error => {
