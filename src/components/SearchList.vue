@@ -44,11 +44,11 @@
         >
           <img
             class="img"
-            v-if="!restaurant.image_url.restaurant_image1"
+            v-if="!restaurant.image_url.shop_image1"
             src="/img/unnamed.png"
             width="100%"
           />
-          <img v-else :src="restaurant.image_url.restaurant_image1" />
+          <img v-else :src="restaurant.image_url.shop_image1" />
           <div class="card-body">
             <v-card-title class="title">{{ restaurant.name }}</v-card-title>
             <div class="my-4 subtitle-1">{{ restaurant.code.areaname_s }}</div>
