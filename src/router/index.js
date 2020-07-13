@@ -16,7 +16,7 @@ const routes = [
     component: () => import("../views/About.vue")
   },
   {
-    path: "/restaurants",
+    path: "/restaurants/:restaurantName/:restaurantRange/:latitude/:longitude",
     name: "RestaurantList",
     component: () => import("../views/RestaurantList.vue")
   },
