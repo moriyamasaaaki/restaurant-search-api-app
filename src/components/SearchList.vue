@@ -1,9 +1,6 @@
 <template>
   <div class="searchList">
-    <div class="searchList__top">
-      <figure class="searchList__background-img"></figure>
-      <p class="searchList__title">🍽 今日の外食はどうする！？</p>
-    </div>
+    <Top />
     <v-form class="form">
       <v-row class="input">
         <v-col cols="12" xs="10" sm="8" md="5">
@@ -60,8 +57,12 @@
 <script>
 import restaurant from "@/api/restaurant.js";
 import axios from "axios";
+import Top from "@/components/Top.vue";
 
 export default {
+  components: {
+    Top
+  },
   data() {
     return {
       name: null,
@@ -203,42 +204,6 @@ export default {
   box-sizing: border-box;
   &:hover {
     opacity: 0.7;
-  }
-}
-
-.searchList__top {
-  position: relative;
-}
-
-.searchList__background-img {
-  background: linear-gradient(
-      90deg,
-      rgba(35, 35, 36, 0.7),
-      rgba(35, 35, 36, 0.7)
-    ),
-    url("/img/top-img.jpg") center / cover;
-  width: 100%;
-  height: 30rem;
-}
-
-.searchList__title {
-  font-size: 24px;
-  word-break: break-all;
-  width: 100%;
-  text-align: center;
-  text-shadow: 1px 3px 3px #353535;
-  color: white;
-  font-weight: bold;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translateY(-50%) translateX(-50%);
-  -moz-transform: translateY(-50%) translateX(-50%);
-  -ms-transform: translateY(-50%) translateX(-50%);
-  -o-transform: translateY(-50%) translateX(-50%);
-  transform: translateY(-50%) translateX(-50%);
-  @include pc {
-    font-size: 40px;
   }
 }
 
