@@ -38,6 +38,10 @@
           <v-divider class="mx-4"></v-divider>
           <v-list class="transparent">
             <v-list-item class="restaurantDetail__list">
+              <span class="material-icons">home</span>
+              <span>{{ restaurant.address }}</span>
+            </v-list-item>
+            <v-list-item class="restaurantDetail__list">
               <span class="material-icons">schedule</span>
               <span>{{ restaurant.opentime }}</span>
             </v-list-item>
