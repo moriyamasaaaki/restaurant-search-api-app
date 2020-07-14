@@ -78,7 +78,6 @@ export default {
       restaurant: null,
       error_msg: null,
       loading: false,
-      hover: null,
 
       latitude: 0,
       longitude: 0,
@@ -86,7 +85,7 @@ export default {
       page: 1,
       length: 0,
       restaurantLists: null,
-      pageSize: 10
+      pageSize: 15
     };
   },
 
