@@ -1,41 +1,36 @@
 <template>
   <div class="searchList">
-    <v-row>
-      <v-col cols="12" xs="10" sm="8" md="6" lg="4">
-        <v-text-field label="店名・ジャンル" v-model="name" />
-        <v-select
-          v-model="range"
-          :items="categories"
-          item-text="categoryName"
-          item-value="id"
-          label="現在地からの距離"
-        ></v-select>
-      </v-col>
-      <v-col cols="2">
-        <v-btn @click="loadShops" :loading="loading">検索</v-btn>
-      </v-col>
-    </v-row>
+    <div class="searchList__top">
+      <figure class="searchList__background-img"></figure>
+      <p class="searchList__title">🍽 今日の外食はどうする！？</p>
+    </div>
+    <v-form class="form">
+      <v-row class="input">
+        <v-col cols="12" xs="10" sm="8" md="5">
+          <v-text-field label="店名・ジャンル" v-model="name" />
+        </v-col>
+        <v-col cols="12" xs="10" sm="8" md="5">
+          <v-select
+            v-model="range"
+            :items="categories"
+            item-text="categoryName"
+            item-value="id"
+            label="現在地からの距離"
+          ></v-select>
+        </v-col>
+        <v-col cols="12" md="2">
+          <v-btn class="btn" color="primary" @click="loadShops" :loading="loading">
+            検索
+            <span class="material-icons">search</span>
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-form>
     <p>{{ latitude }}、{{ longitude }}</p>
     <v-alert v-if="error_msg" type="error">{{ error_msg }}</v-alert>
-    <!-- <v-row v-if="restaurants">
-      <v-col
-        cols="12"
-        xs="12"
-        sm="6"
-        md="4"
-        lg="3"
-        v-for="(restaurant, index) in restaurantLists"
-        :key="index"
-    >-->
-    <p v-if="restaurants" class="text-center hit">
-      全{{ restaurants.length }}件ヒットしました。
-    </p>
+    <p v-if="restaurants" class="text-center hit">全{{ restaurants.length }}件ヒットしました。</p>
     <div class="searchList-items" v-if="restaurants">
-      <v-card
-        class="card"
-        v-for="(restaurant, index) in restaurantLists"
-        :key="index"
-      >
+      <v-card class="card" v-for="(restaurant, index) in restaurantLists" :key="index">
         <router-link
           :to="{
             name: 'RestaurantDetail',
@@ -55,15 +50,9 @@
           </div>
         </router-link>
       </v-card>
-      <!-- </v-col>
-      </v-row>-->
     </div>
     <div v-if="restaurantLists" class="text-center">
-      <v-pagination
-        v-model="page"
-        :length="length"
-        @input="pageChange"
-      ></v-pagination>
+      <v-pagination v-model="page" :length="length" @input="pageChange"></v-pagination>
     </div>
   </div>
 </template>
@@ -217,9 +206,58 @@ export default {
   }
 }
 
+.searchList__top {
+  position: relative;
+}
+
+.searchList__background-img {
+  background: linear-gradient(
+      90deg,
+      rgba(35, 35, 36, 0.7),
+      rgba(35, 35, 36, 0.7)
+    ),
+    url("/img/top-img.jpg") center / cover;
+  width: 100%;
+  height: 30rem;
+}
+
+.searchList__title {
+  font-size: 24px;
+  word-break: break-all;
+  width: 100%;
+  text-align: center;
+  text-shadow: 1px 3px 3px #353535;
+  color: white;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateY(-50%) translateX(-50%);
+  -moz-transform: translateY(-50%) translateX(-50%);
+  -ms-transform: translateY(-50%) translateX(-50%);
+  -o-transform: translateY(-50%) translateX(-50%);
+  transform: translateY(-50%) translateX(-50%);
+  @include pc {
+    font-size: 40px;
+  }
+}
+
 .card-body {
   flex: 1;
   padding: 8px;
+}
+.btn {
+  display: block;
+  width: 100%;
+  padding: 20px;
+}
+
+.input {
+  width: 100%;
+  @include pc {
+  width: 70%;
+  margin: 0 auto;
+  }
 }
 
 img {
@@ -228,7 +266,6 @@ img {
 }
 
 .searchList {
-  padding: 8px;
   box-sizing: border-box;
 }
 
