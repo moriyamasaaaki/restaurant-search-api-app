@@ -1,58 +1,28 @@
 <template>
   <div class="searchList">
-    <div class="searchList__top">
-      <figure class="searchList__background-img"></figure>
-      <p class="searchList__title">🍽 今日の外食はどうする！？</p>
-    </div>
-    <v-form class="form">
-      <v-row class="input">
-        <v-col cols="12" xs="10" sm="8" md="5">
-          <v-text-field label="店名・ジャンル" v-model="name" />
-        </v-col>
-        <v-col cols="12" xs="10" sm="8" md="5">
-          <v-select
-            v-model="range"
-            :items="categories"
-            item-text="categoryName"
-            item-value="id"
-            label="現在地からの距離"
-          ></v-select>
-        </v-col>
-        <v-col cols="12" md="2">
-          <v-btn class="btn" color="primary" @click="loadShops" :loading="loading">
-            検索
-            <span class="material-icons">search</span>
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-form>
+    <Top />
+    <RestaurantSearch @catchMessage="loadShops" :loading="loading" />
     <p>{{ latitude }}、{{ longitude }}</p>
     <v-alert v-if="error_msg" type="error">{{ error_msg }}</v-alert>
-    <p v-if="restaurants" class="text-center hit">全{{ restaurants.length }}件ヒットしました。</p>
+    <p v-if="restaurants" class="text-center hit">
+      全{{ restaurants.length }}件ヒットしました。
+    </p>
     <div class="searchList-items" v-if="restaurants">
-      <v-card class="card" v-for="(restaurant, index) in restaurantLists" :key="index">
-        <router-link
-          :to="{
-            name: 'RestaurantDetail',
-            params: { restaurantId: restaurant.id }
-          }"
-        >
-          <img
-            class="img"
-            v-if="!restaurant.image_url.shop_image1"
-            src="/img/unnamed.png"
-            width="100%"
-          />
-          <img v-else :src="restaurant.image_url.shop_image1" />
-          <div class="card-body">
-            <v-card-title class="title">{{ restaurant.name }}</v-card-title>
-            <div class="my-4 subtitle-1">{{ restaurant.code.areaname_s }}</div>
-          </div>
-        </router-link>
-      </v-card>
+      <RestaurantItem
+        v-for="(restaurant, index) in restaurantLists"
+        :key="index"
+        :id="restaurant.id"
+        :name="restaurant.name"
+        :img="restaurant.image_url.shop_image1"
+        :area="restaurant.code.areaname_s"
+      />
     </div>
     <div v-if="restaurantLists" class="text-center">
-      <v-pagination v-model="page" :length="length" @input="pageChange"></v-pagination>
+      <v-pagination
+        v-model="page"
+        :length="length"
+        @input="pageChange"
+      ></v-pagination>
     </div>
   </div>
 </template>
@@ -60,24 +30,22 @@
 <script>
 import restaurant from "@/api/restaurant.js";
 import axios from "axios";
+import Top from "@/components/Top.vue";
+import RestaurantItem from "@/components/RestaurantItem.vue";
+import RestaurantSearch from "@/components/RestaurantSearch.vue";
 
 export default {
+  components: {
+    Top,
+    RestaurantItem,
+    RestaurantSearch
+  },
   data() {
     return {
-      name: null,
-      range: 2,
-      categories: [
-        { categoryName: "300m", id: 1 },
-        { categoryName: "500m", id: 2 },
-        { categoryName: "1km", id: 3 },
-        { categoryName: "2km", id: 4 },
-        { categoryName: "3km", id: 5 }
-      ],
       restaurants: null,
       restaurant: null,
       error_msg: null,
       loading: false,
-      hover: null,
 
       latitude: 0,
       longitude: 0,
@@ -85,7 +53,7 @@ export default {
       page: 1,
       length: 0,
       restaurantLists: null,
-      pageSize: 10
+      pageSize: 15
     };
   },
 
@@ -107,30 +75,20 @@ export default {
   },
 
   methods: {
-    loadShops() {
+    loadShops(name, range) {
       this.restaurants = null;
       this.error_msg = null;
       this.loading = true;
       restaurant
-        .searchShops(this.name, this.range, this.latitude, this.longitude)
+        .searchShops(name, range, this.latitude, this.longitude)
         .then(res => {
           this.restaurants = res;
-          let url = `/restaurants/${this.name}/${this.range}/${this.latitude}/${this.longitude}`;
+          let url = `/restaurants/${name}/${range}/${this.latitude}/${this.longitude}`;
           const encoded = encodeURI(url);
           console.log(encoded);
 
           this.$router.push({ path: encoded });
-          this.length = Math.ceil(this.restaurants.length / this.pageSize);
-
-          this.restaurantLists = this.restaurants.slice(
-            this.pageSize * (this.page - 1),
-            this.pageSize * this.page
-          );
-          console.log(this.name);
-          console.log(this.range);
-          console.log(this.restaurants);
-          console.log(this.latitude);
-          console.log(this.longitude);
+          this.pageLength();
         })
         .catch(err => {
           this.error_msg = err;
@@ -145,7 +103,6 @@ export default {
           let coords = position.coords;
           this.latitude = coords.latitude;
           this.longitude = coords.longitude;
-          console.log(this.latitude, this.longitude);
         });
       } else {
         alert("現在位置が取得できませんでした");
@@ -173,16 +130,18 @@ export default {
         })
         .then(res => {
           this.restaurants = res.data.rest;
-          this.length = Math.ceil(this.restaurants.length / this.pageSize);
-          this.restaurantLists = this.restaurants.slice(
-            this.pageSize * (this.page - 1),
-            this.pageSize * this.page
-          );
-          console.log(this.restaurants);
+          this.pageLength();
         })
         .catch(error => {
           console.error(error);
         });
+    },
+    pageLength() {
+      this.length = Math.ceil(this.restaurants.length / this.pageSize);
+      this.restaurantLists = this.restaurants.slice(
+        this.pageSize * (this.page - 1),
+        this.pageSize * this.page
+      );
     }
   }
 };
@@ -197,88 +156,9 @@ export default {
   margin: 0 auto 80px;
   justify-content: center;
 }
-.card {
-  display: flex;
-  flex-flow: column;
-  box-sizing: border-box;
-  &:hover {
-    opacity: 0.7;
-  }
-}
-
-.searchList__top {
-  position: relative;
-}
-
-.searchList__background-img {
-  background: linear-gradient(
-      90deg,
-      rgba(35, 35, 36, 0.7),
-      rgba(35, 35, 36, 0.7)
-    ),
-    url("/img/top-img.jpg") center / cover;
-  width: 100%;
-  height: 30rem;
-}
-
-.searchList__title {
-  font-size: 24px;
-  word-break: break-all;
-  width: 100%;
-  text-align: center;
-  text-shadow: 1px 3px 3px #353535;
-  color: white;
-  font-weight: bold;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translateY(-50%) translateX(-50%);
-  -moz-transform: translateY(-50%) translateX(-50%);
-  -ms-transform: translateY(-50%) translateX(-50%);
-  -o-transform: translateY(-50%) translateX(-50%);
-  transform: translateY(-50%) translateX(-50%);
-  @include pc {
-    font-size: 40px;
-  }
-}
-
-.card-body {
-  flex: 1;
-  padding: 8px;
-}
-.btn {
-  display: block;
-  width: 100%;
-  padding: 20px;
-}
-
-.input {
-  width: 100%;
-  @include pc {
-  width: 70%;
-  margin: 0 auto;
-  }
-}
-
-img {
-  width: 100%;
-  height: 250px;
-}
 
 .searchList {
   box-sizing: border-box;
-}
-
-a {
-  text-decoration: none;
-  color: rgba(0, 0, 0, 0.6);
-}
-.subtitle-1 {
-  color: rgba(0, 0, 0, 0.6);
-}
-
-.title {
-  color: rgba(0, 0, 0, 0.87);
 }
 
 .hit {
