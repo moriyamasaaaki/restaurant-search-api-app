@@ -1,31 +1,12 @@
 <template>
   <div class="searchList">
     <Top />
-    <v-form class="form">
-      <v-row class="input">
-        <v-col cols="12" xs="10" sm="8" md="5">
-          <v-text-field label="店名・ジャンル" v-model="name" />
-        </v-col>
-        <v-col cols="12" xs="10" sm="8" md="5">
-          <v-select
-            v-model="range"
-            :items="categories"
-            item-text="categoryName"
-            item-value="id"
-            label="現在地からの距離"
-          ></v-select>
-        </v-col>
-        <v-col cols="12" md="2">
-          <v-btn class="btn" color="primary" @click="loadShops" :loading="loading">
-            検索
-            <span class="material-icons">search</span>
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-form>
+    <RestaurantSearch @catchMessage="loadShops" :loading="loading" />
     <p>{{ latitude }}、{{ longitude }}</p>
     <v-alert v-if="error_msg" type="error">{{ error_msg }}</v-alert>
-    <p v-if="restaurants" class="text-center hit">全{{ restaurants.length }}件ヒットしました。</p>
+    <p v-if="restaurants" class="text-center hit">
+      全{{ restaurants.length }}件ヒットしました。
+    </p>
     <div class="searchList-items" v-if="restaurants">
       <RestaurantItem
         v-for="(restaurant, index) in restaurantLists"
@@ -37,7 +18,11 @@
       />
     </div>
     <div v-if="restaurantLists" class="text-center">
-      <v-pagination v-model="page" :length="length" @input="pageChange"></v-pagination>
+      <v-pagination
+        v-model="page"
+        :length="length"
+        @input="pageChange"
+      ></v-pagination>
     </div>
   </div>
 </template>
@@ -47,23 +32,16 @@ import restaurant from "@/api/restaurant.js";
 import axios from "axios";
 import Top from "@/components/Top.vue";
 import RestaurantItem from "@/components/RestaurantItem.vue";
+import RestaurantSearch from "@/components/RestaurantSearch.vue";
 
 export default {
   components: {
     Top,
-    RestaurantItem
+    RestaurantItem,
+    RestaurantSearch
   },
   data() {
     return {
-      name: null,
-      range: 2,
-      categories: [
-        { categoryName: "300m", id: 1 },
-        { categoryName: "500m", id: 2 },
-        { categoryName: "1km", id: 3 },
-        { categoryName: "2km", id: 4 },
-        { categoryName: "3km", id: 5 }
-      ],
       restaurants: null,
       restaurant: null,
       error_msg: null,
@@ -97,15 +75,15 @@ export default {
   },
 
   methods: {
-    loadShops() {
+    loadShops(name, range) {
       this.restaurants = null;
       this.error_msg = null;
       this.loading = true;
       restaurant
-        .searchShops(this.name, this.range, this.latitude, this.longitude)
+        .searchShops(name, range, this.latitude, this.longitude)
         .then(res => {
           this.restaurants = res;
-          let url = `/restaurants/${this.name}/${this.range}/${this.latitude}/${this.longitude}`;
+          let url = `/restaurants/${name}/${range}/${this.latitude}/${this.longitude}`;
           const encoded = encodeURI(url);
           console.log(encoded);
 
@@ -177,20 +155,6 @@ export default {
   grid-template-columns: repeat(auto-fill, 350px);
   margin: 0 auto 80px;
   justify-content: center;
-}
-
-.btn {
-  display: block;
-  width: 100%;
-  padding: 20px;
-}
-
-.input {
-  width: 100%;
-  @include pc {
-    width: 70%;
-    margin: 0 auto;
-  }
 }
 
 .searchList {

@@ -55,7 +55,6 @@ a {
   color: rgba(0, 0, 0, 0.6);
 }
 
-
 .card-body {
   flex: 1;
   padding: 8px;
@@ -67,5 +66,4 @@ a {
 .title {
   color: rgba(0, 0, 0, 0.87);
 }
-
 </style>
