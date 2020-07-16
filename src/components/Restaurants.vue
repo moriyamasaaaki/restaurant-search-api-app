@@ -4,9 +4,11 @@
     <RestaurantSearch @catchMessage="loadShops" :loading="loading" />
     <p>{{ latitude }}、{{ longitude }}</p>
     <v-alert v-if="error_msg" type="error">{{ error_msg }}</v-alert>
-    <p v-if="restaurants" class="restaurants__hit text-center">
-      全{{ restaurants.length }}件ヒットしました。
-    </p>
+    <div v-if="restaurants" class="restaurants__hit text-center">
+      <strong>全{{ restaurants.length }}件ヒットしました</strong>
+      <span>/</span>
+      <p>{{ page }}ページ目を表示中</p>
+    </div>
     <div class="restaurants__items" v-if="restaurants">
       <RestaurantItem
         v-for="(restaurant, index) in restaurantLists"
@@ -159,7 +161,16 @@ export default {
     justify-content: center;
   }
   &__hit {
-    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    margin-bottom: 24px;
+  }
+  strong {
+    font-size: 16px;
+    @include pc {
+      font-size: 18px;
+    }
   }
 }
 </style>
