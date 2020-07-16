@@ -1,14 +1,15 @@
 <template>
   <v-app>
     <Header />
-    <v-content>
+    <main class="wrapper">
       <router-view></router-view>
-    </v-content>
+    </main>
   </v-app>
 </template>
 
 <script>
 import Header from "@/components/Header";
+
 export default {
   name: "App",
 
@@ -17,3 +18,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.wrapper {
+  padding: 56px 0;
+}
+</style>

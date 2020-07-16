@@ -115,13 +115,18 @@ export default {
 .restaurantDetail {
   max-width: 1000px;
   margin: 24px auto;
+  padding: 0 8px;
   &__img {
+    margin-bottom: 16px;
     width: 100%;
+    @include pc {
+      margin: 0;
+    }
   }
   &__container {
     @include pc {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: top;
     }
   }
@@ -133,7 +138,6 @@ export default {
   &__content {
     @include pc {
       width: 55%;
-      padding: 0 8px;
     }
   }
   &__list {
@@ -154,5 +158,17 @@ export default {
 .material-icons {
   color: rgba(0, 0, 0, 0.6);
   margin-right: 8px;
+}
+
+.v-card__title,
+.v-card__text,
+.v-list-item,
+.v-card__actions {
+  padding: 0;
+}
+
+.v-card__text {
+  line-height: 2;
+  padding-bottom: 16px;
 }
 </style>
