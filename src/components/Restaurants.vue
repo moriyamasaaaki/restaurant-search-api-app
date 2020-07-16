@@ -1,13 +1,13 @@
 <template>
-  <div class="searchList">
+  <div class="restaurants">
     <Top />
     <RestaurantSearch @catchMessage="loadShops" :loading="loading" />
     <p>{{ latitude }}、{{ longitude }}</p>
     <v-alert v-if="error_msg" type="error">{{ error_msg }}</v-alert>
-    <p v-if="restaurants" class="text-center hit">
+    <p v-if="restaurants" class="restaurants__hit text-center">
       全{{ restaurants.length }}件ヒットしました。
     </p>
-    <div class="searchList-items" v-if="restaurants">
+    <div class="restaurants__items" v-if="restaurants">
       <RestaurantItem
         v-for="(restaurant, index) in restaurantLists"
         :key="index"
@@ -148,20 +148,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.searchList-items {
-  width: 100%;
-  display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(auto-fill, 350px);
-  margin: 0 auto 80px;
-  justify-content: center;
-}
-
-.searchList {
+.restaurants {
   box-sizing: border-box;
-}
-
-.hit {
-  font-weight: 600;
+  &__items {
+    width: 100%;
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, 350px);
+    margin: 0 auto 80px;
+    justify-content: center;
+  }
+  &__hit {
+    font-weight: 600;
+  }
 }
 </style>
