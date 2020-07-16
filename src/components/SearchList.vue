@@ -80,7 +80,7 @@ export default {
       this.error_msg = null;
       this.loading = true;
       restaurant
-        .searchShops(name, range, this.latitude, this.longitude)
+        .searchRestaurants(name, range, this.latitude, this.longitude)
         .then(res => {
           this.restaurants = res;
           let url = `/restaurants/${name}/${range}/${this.latitude}/${this.longitude}`;
