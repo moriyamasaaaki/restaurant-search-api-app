@@ -1,7 +1,7 @@
 <template>
   <div class="top">
     <figure class="top__background-img"></figure>
-    <p class="top__title">🍽 今日の外食はどうする！？</p>
+    <p class="top__title">🍽 今日の外食を探そう！！</p>
   </div>
 </template>
 
@@ -16,7 +16,10 @@
       ),
       url("/img/top-img.jpg") center / cover;
     width: 100%;
-    height: 30rem;
+    height: 100vh;
+    @include tab {
+        height: 30rem;
+    }
   }
   &__title {
     font-size: 24px;

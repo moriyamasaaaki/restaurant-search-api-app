@@ -2,7 +2,7 @@
   <v-form class="Restaurant-search">
     <v-row class="Restaurant-search__input">
       <v-col cols="12" xs="10" sm="8" md="5">
-        <v-text-field label="店名・ジャンル" v-model="name" />
+        <v-text-field label="店名・ジャンル" outlined v-model="name" />
       </v-col>
       <v-col cols="12" xs="10" sm="8" md="5">
         <v-select
@@ -11,6 +11,7 @@
           item-text="categoryName"
           item-value="id"
           label="現在地からの距離"
+          outlined
         ></v-select>
       </v-col>
       <v-col cols="12" md="2">
@@ -37,7 +38,7 @@ export default {
   },
   data() {
     return {
-      name: null,
+      name: "焼肉",
       range: 2,
       categories: [
         { categoryName: "300m", id: 1 },
@@ -58,6 +59,9 @@ export default {
 
 <style lang="scss" scoped>
 .Restaurant-search {
+  @include pc {
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+  }
   &__button {
     display: block;
     width: 100%;

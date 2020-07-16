@@ -1,30 +1,28 @@
 <template>
   <div class="restaurants">
-    <Top />
     <RestaurantSearch @catchMessage="loadShops" :loading="loading" />
-    <p>{{ latitude }}、{{ longitude }}</p>
-    <v-alert v-if="error_msg" type="error">{{ error_msg }}</v-alert>
-    <div v-if="restaurants" class="restaurants__hit text-center">
-      <strong>全{{ restaurants.length }}件ヒットしました</strong>
-      <span>/</span>
-      <p>{{ page }}ページ目を表示中</p>
-    </div>
-    <div class="restaurants__items" v-if="restaurants">
-      <RestaurantItem
-        v-for="(restaurant, index) in restaurantLists"
-        :key="index"
-        :id="restaurant.id"
-        :name="restaurant.name"
-        :img="restaurant.image_url.shop_image1"
-        :area="restaurant.code.areaname_s"
-      />
-    </div>
-    <div v-if="restaurants" class="text-center">
-      <v-pagination
-        v-model="page"
-        :length="length"
-        @input="pageChange"
-      ></v-pagination>
+    <div class="restaurants__result">
+      <p>{{ latitude }}、{{ longitude }}</p>
+      <v-alert class="restaurants__error-message" v-if="error_msg" type="error">{{ error_msg }}</v-alert>
+      <div v-if="restaurants" class="restaurants__hit text-center">
+        <strong>全{{ restaurants.length }}件ヒットしました</strong>
+        <span>/</span>
+        <p>{{ page }}ページ目を表示中</p>
+      </div>
+
+      <div class="restaurants__items" v-if="restaurants">
+        <RestaurantItem
+          v-for="(restaurant, index) in restaurantLists"
+          :key="index"
+          :id="restaurant.id"
+          :name="restaurant.name"
+          :img="restaurant.image_url.shop_image1"
+          :area="restaurant.code.areaname_s"
+        />
+      </div>
+      <div v-if="restaurants" class="text-center">
+        <v-pagination v-model="page" :length="length" @input="pageChange"></v-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -32,13 +30,11 @@
 <script>
 import restaurant from "@/api/restaurant.js";
 import axios from "axios";
-import Top from "@/components/Top.vue";
 import RestaurantItem from "@/components/RestaurantItem.vue";
 import RestaurantSearch from "@/components/RestaurantSearch.vue";
 
 export default {
   components: {
-    Top,
     RestaurantItem,
     RestaurantSearch
   },
@@ -151,20 +147,29 @@ export default {
 
 <style lang="scss" scoped>
 .restaurants {
-  box-sizing: border-box;
+  margin-bottom: 56px;
+  &__result {
+    padding: 0 8px;
+  }
   &__items {
     width: 100%;
     display: grid;
     gap: 16px;
-    grid-template-columns: repeat(auto-fill, 350px);
     margin: 0 auto 80px;
     justify-content: center;
+    @include tab {
+      grid-template-columns: repeat(auto-fill, 350px);
+    }
   }
   &__hit {
     display: flex;
     justify-content: center;
     align-items: baseline;
     margin-bottom: 24px;
+  }
+  &__error-message {
+    max-width: 500px;
+    margin: 80px auto;
   }
   strong {
     font-size: 16px;
