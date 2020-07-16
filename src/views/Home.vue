@@ -1,16 +1,16 @@
 <template>
   <div class="home">
-    <SearchList />
+    <Restaurants />
   </div>
 </template>
 
 <script>
-import SearchList from "@/components/SearchList.vue";
+import Restaurants from "@/components/Restaurants.vue";
 
 export default {
   name: "Home",
   components: {
-    SearchList
+    Restaurants
   }
 };
 </script>

@@ -75,7 +75,6 @@ import axios from "axios";
 export default {
   data() {
     return {
-      // restaurants: restaurants,
       restaurants: null,
       restaurant: null,
       restaurantName: null
@@ -85,8 +84,6 @@ export default {
   async created() {
     let restaurantId = this.$route.params.restaurantId;
     this.restaurant = await this.getRestaurant(restaurantId);
-    // console.log(restaurantId);
-    // console.log(this.restaurant);
   },
 
   methods: {
@@ -103,7 +100,6 @@ export default {
           this.restaurants.forEach(restaurant => {
             if (restaurant.id == restaurantId) {
               this.restaurant = restaurant;
-              // console.log(this.restaurant.name);
             }
           });
         })
@@ -116,9 +112,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-h1 {
-  font-size: 20px;
-}
 .restaurantDetail {
   max-width: 1000px;
   margin: 24px auto;
