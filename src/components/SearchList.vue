@@ -17,7 +17,7 @@
         :area="restaurant.code.areaname_s"
       />
     </div>
-    <div v-if="restaurantLists" class="text-center">
+    <div v-if="restaurants" class="text-center">
       <v-pagination
         v-model="page"
         :length="length"
