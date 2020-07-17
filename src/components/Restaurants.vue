@@ -18,10 +18,20 @@
           :name="restaurant.name"
           :img="restaurant.image_url.shop_image1"
           :area="restaurant.code.areaname_s"
+          :pr="restaurant.pr.pr_short"
         />
       </div>
+      <div class="text-center">
+        <v-progress-circular
+          v-if="!restaurants && !error_msg"
+          :size="50"
+          color="primary"
+          indeterminate
+          :loading="loading"
+        ></v-progress-circular>
+      </div>
       <div v-if="restaurants" class="text-center">
-        <v-pagination v-model="page" :length="length" @input="pageChange"></v-pagination>
+        <v-pagination v-model="page" :length="length" @input="pageChange" color="success"></v-pagination>
       </div>
     </div>
   </div>
@@ -60,10 +70,11 @@ export default {
   },
 
   async created() {
-    let restaurantName = this.$route.params.restaurantName;
-    let restaurantRange = this.$route.params.restaurantRange;
-    let latitude = this.$route.params.latitude;
-    let longitude = this.$route.params.longitude;
+    const route = this.$route.params;
+    let restaurantName = route.restaurantName;
+    let restaurantRange = route.restaurantRange;
+    let latitude = route.latitude;
+    let longitude = route.longitude;
     this.restaurants = await this.getRestaurant(
       restaurantName,
       restaurantRange,
@@ -71,7 +82,6 @@ export default {
       longitude
     );
   },
-
   methods: {
     loadShops(name, range) {
       this.restaurants = null;
@@ -80,16 +90,20 @@ export default {
       restaurant
         .searchRestaurants(name, range, this.latitude, this.longitude)
         .then(res => {
-          this.restaurants = res;
-          let url = `/restaurants/${name}/${range}/${this.latitude}/${this.longitude}`;
-          const encoded = encodeURI(url);
-          console.log(encoded);
-
-          this.$router.push({ path: encoded });
-          this.pageLength();
+          setTimeout(() => {
+            this.restaurants = res;
+            let url = `/restaurants/${name}/${range}/${this.latitude}/${this.longitude}`;
+            const encoded = encodeURI(url);
+            this.$router.push({ path: encoded });
+            this.pageLength();
+            this.loading = false;
+          }, 1000);
         })
         .catch(err => {
-          this.error_msg = err;
+          setTimeout(() => {
+            this.loading = false;
+            this.error_msg = err;
+          }, 1000);
         })
         .finally(() => {
           this.loading = false;
@@ -116,6 +130,13 @@ export default {
         behavior: "auto"
       });
     },
+    pageLength() {
+      this.length = Math.ceil(this.restaurants.length / this.pageSize);
+      this.restaurantLists = this.restaurants.slice(
+        this.pageSize * (this.page - 1),
+        this.pageSize * this.page
+      );
+    },
     getRestaurant(restaurantName, restaurantRange, latitude, longitude) {
       axios
         .get(process.env.VUE_APP_GURUNAVI_URLs, {
@@ -127,19 +148,18 @@ export default {
           }
         })
         .then(res => {
-          this.restaurants = res.data.rest;
-          this.pageLength();
+          setTimeout(() => {
+            this.restaurants = res.data.rest;
+            this.pageLength();
+            this.loading = false;
+          }, 1000);
         })
         .catch(error => {
-          console.error(error);
+          setTimeout(() => {
+            console.error(error);
+            this.loading = false;
+          }, 1000);
         });
-    },
-    pageLength() {
-      this.length = Math.ceil(this.restaurants.length / this.pageSize);
-      this.restaurantLists = this.restaurants.slice(
-        this.pageSize * (this.page - 1),
-        this.pageSize * this.page
-      );
     }
   }
 };
