@@ -1,10 +1,10 @@
 <template>
   <v-form class="Restaurant-search">
     <v-row class="Restaurant-search__input">
-      <v-col cols="12" xs="10" sm="8" md="5">
+      <v-col cols="12" xs="10" sm="6" md="5">
         <v-text-field label="店名・ジャンル" outlined v-model="name" />
       </v-col>
-      <v-col cols="12" xs="10" sm="8" md="5">
+      <v-col cols="12" xs="10" sm="6" md="5">
         <v-select
           v-model="range"
           :items="categories"
@@ -17,7 +17,8 @@
       <v-col cols="12" md="2">
         <v-btn
           class="Restaurant-search__button"
-          color="primary"
+          color="success"
+          x-large
           @click="sendMessage"
           :loading="loading"
         >
@@ -59,20 +60,25 @@ export default {
 
 <style lang="scss" scoped>
 .Restaurant-search {
-  @include pc {
-    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
-  }
   &__button {
     display: block;
-    width: 100%;
     padding: 20px;
   }
   &__input {
+    margin: 48px auto;
+  }
+  &__button,
+  &__input {
     width: 100%;
     @include pc {
-      width: 70%;
-      margin: 0 auto;
+        width: 70%;
     }
   }
+}
+
+.col-sm-8,
+.col-md-5,
+.col-12 {
+  padding: 0 8px;
 }
 </style>
