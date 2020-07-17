@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar class="header" app color="primary" dark>
+  <v-app-bar class="header" app color="success" dark>
     <div class="d-flex align-center">
       <router-link to="/" class="header__title">
         <span>レストラン検索</span>

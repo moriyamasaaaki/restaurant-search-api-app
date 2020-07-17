@@ -15,6 +15,7 @@
       <img class="restaurant__img" v-else :src="img" />
       <div class="restaurant__body">
         <v-card-title class="restaurant__title">{{ name }}</v-card-title>
+        <v-card-text>{{ pr }}</v-card-text>
         <div class="restaurant__subtitle my-4 subtitle-1">{{ area }}</div>
       </div>
     </router-link>
@@ -34,6 +35,9 @@ export default {
       type: String
     },
     area: {
+      type: String
+    },
+    pr: {
       type: String
     }
   }
