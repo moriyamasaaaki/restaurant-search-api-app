@@ -1,5 +1,5 @@
 <template>
-  <div class="restaurantDetail">
+  <div class="restaurantDetail" v-if="restaurant">
     <div>
       <v-card-title class="restaurantDetail__title">
         <span class="material-icons">restaurant</span>
