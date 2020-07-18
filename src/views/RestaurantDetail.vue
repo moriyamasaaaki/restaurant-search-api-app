@@ -26,11 +26,13 @@
             class="restaurantDetail__img"
             v-if="!restaurant.image_url.shop_image1"
             src="/img/unnamed.png"
+            alt=""
           />
           <v-img
             class="restaurantDetail__img"
             v-else
             :src="restaurant.image_url.shop_image1"
+            alt=""
           />
         </div>
         <div class="restaurantDetail__content">
