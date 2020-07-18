@@ -6,13 +6,8 @@
         params: { restaurantId: id }
       }"
     >
-      <img
-        class="restaurant__img"
-        v-if="!img"
-        src="/img/unnamed.png"
-        width="100%"
-      />
-      <img class="restaurant__img" v-else :src="img" />
+      <img class="restaurant__img" v-if="!img" src="/img/unnamed.png" alt="" />
+      <img class="restaurant__img" v-else :src="img" alt="" />
       <div class="restaurant__body">
         <v-card-title class="restaurant__title">{{ name }}</v-card-title>
         <v-card-text>{{ pr }}</v-card-text>

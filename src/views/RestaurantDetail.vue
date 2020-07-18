@@ -26,11 +26,13 @@
             class="restaurantDetail__img"
             v-if="!restaurant.image_url.shop_image1"
             src="/img/unnamed.png"
+            alt=""
           />
           <v-img
             class="restaurantDetail__img"
             v-else
             :src="restaurant.image_url.shop_image1"
+            alt=""
           />
         </div>
         <div class="restaurantDetail__content">
@@ -60,7 +62,7 @@
           </v-list>
           <v-card-actions>
             <a class="restaurantDetail__btn" :href="restaurant.url">
-              <v-btn class="ma-2" outlined color="indigo">予約する</v-btn>
+              <v-btn class="ma-2" color="accent">予約する</v-btn>
             </a>
           </v-card-actions>
         </div>

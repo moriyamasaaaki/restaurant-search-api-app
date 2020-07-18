@@ -31,7 +31,7 @@
         ></v-progress-circular>
       </div>
       <div v-if="restaurants" class="text-center">
-        <v-pagination v-model="page" :length="length" @input="pageChange" color="success"></v-pagination>
+        <v-pagination v-model="page" :length="length" @input="pageChange" color="primary"></v-pagination>
       </div>
     </div>
   </div>
