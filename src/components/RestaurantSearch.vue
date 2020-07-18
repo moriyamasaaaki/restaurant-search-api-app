@@ -17,7 +17,7 @@
       <v-col cols="12" md="2">
         <v-btn
           class="Restaurant-search__button"
-          color="success"
+          color="secondary"
           x-large
           @click="sendMessage"
           :loading="loading"

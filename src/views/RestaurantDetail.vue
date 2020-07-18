@@ -62,7 +62,7 @@
           </v-list>
           <v-card-actions>
             <a class="restaurantDetail__btn" :href="restaurant.url">
-              <v-btn class="ma-2" outlined color="indigo">予約する</v-btn>
+              <v-btn class="ma-2" color="accent">予約する</v-btn>
             </a>
           </v-card-actions>
         </div>
