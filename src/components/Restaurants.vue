@@ -2,8 +2,12 @@
   <div class="restaurants">
     <RestaurantSearch @catchMessage="loadShops" :loading="loading" />
     <div class="restaurants__result">
-      <p>{{ latitude }}、{{ longitude }}</p>
-      <v-alert class="restaurants__error-message" v-if="error_msg" type="error">{{ error_msg }}</v-alert>
+      <v-alert
+        class="restaurants__error-message"
+        v-if="error_msg"
+        type="error"
+        >{{ error_msg }}</v-alert
+      >
       <div v-if="restaurants" class="restaurants__hit text-center">
         <strong>全{{ restaurants.length }}件ヒットしました</strong>
         <span>/</span>
@@ -31,7 +35,12 @@
         ></v-progress-circular>
       </div>
       <div v-if="restaurants" class="text-center">
-        <v-pagination v-model="page" :length="length" @input="pageChange" color="primary"></v-pagination>
+        <v-pagination
+          v-model="page"
+          :length="length"
+          @input="pageChange"
+          color="primary"
+        ></v-pagination>
       </div>
     </div>
   </div>
@@ -71,10 +80,10 @@ export default {
 
   async created() {
     const route = this.$route.params;
-    let restaurantName = route.restaurantName;
-    let restaurantRange = route.restaurantRange;
-    let latitude = route.latitude;
-    let longitude = route.longitude;
+    const restaurantName = route.restaurantName;
+    const restaurantRange = route.restaurantRange;
+    const latitude = route.latitude;
+    const longitude = route.longitude;
     this.restaurants = await this.getRestaurant(
       restaurantName,
       restaurantRange,
@@ -174,7 +183,7 @@ export default {
   &__items {
     width: 100%;
     display: grid;
-    gap: 16px;
+    gap: 24px;
     margin: 0 auto 80px;
     justify-content: center;
     @include tab {
