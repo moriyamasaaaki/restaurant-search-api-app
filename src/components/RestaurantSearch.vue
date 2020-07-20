@@ -42,11 +42,11 @@ export default {
       name: "焼肉",
       range: 2,
       categories: [
-        { categoryName: "300m", id: 1 },
-        { categoryName: "500m", id: 2 },
-        { categoryName: "1km", id: 3 },
-        { categoryName: "2km", id: 4 },
-        { categoryName: "3km", id: 5 }
+        { id: 1, categoryName: "300m" },
+        { id: 2, categoryName: "500m" },
+        { id: 3, categoryName: "1km" },
+        { id: 4, categoryName: "2km" },
+        { id: 5, categoryName: "3km" }
       ]
     };
   },
@@ -71,7 +71,7 @@ export default {
   &__input {
     width: 100%;
     @include pc {
-        width: 70%;
+      width: 70%;
     }
   }
 }
