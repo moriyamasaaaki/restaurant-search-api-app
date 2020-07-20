@@ -116,8 +116,11 @@ export default {
 <style lang="scss" scoped>
 .restaurantDetail {
   max-width: 1000px;
-  margin: 24px auto;
+  margin: 40px auto;
   padding: 0 8px;
+  @include pc {
+    margin: 64px auto;
+  }
   &__img {
     margin-bottom: 16px;
     width: 100%;

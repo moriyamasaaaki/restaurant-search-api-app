@@ -11,11 +11,11 @@ export default new Vuetify({
         primary: "#f57c00",
         secondary: "#757575",
         accent: "#00838f",
-        error: "#b71c1c"
-      }
-    }
+        error: "#f44336",
+      },
+    },
   },
   icons: {
-    iconfont: "md" // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
-  }
+    iconfont: "md", // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+  },
 });
