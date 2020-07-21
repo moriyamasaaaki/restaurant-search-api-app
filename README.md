@@ -1,6 +1,8 @@
 # 現在地周辺のレストラン検索アプリ
 
-## 言語・フレームワーク・ツール
+## URL: https://eating-out-immendiately-search.netlify.app/
+
+### 言語・フレームワーク・ツール
 - JavaScript
 - Vue.js
 - Vutify
@@ -8,7 +10,7 @@
 - Netlify
 - ぐるなびAPI
 
-### 機能
+#### 機能
 - ぐるなびAPIとGelocationを使い現在地からのお店と距離で絞り込める
 - 初期表示は焼肉屋さんを100件取得しています。
 - 検索一覧ページ
