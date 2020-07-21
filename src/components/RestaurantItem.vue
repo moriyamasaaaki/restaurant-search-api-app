@@ -60,6 +60,7 @@ export default {
   }
   &__subtitle {
     color: rgba(0, 0, 0, 0.6);
+    padding: 0 16px;
   }
   a {
     text-decoration: none;
