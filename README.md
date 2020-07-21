@@ -1,29 +1,18 @@
-# restaurant-search-api-app
+# 現在地周辺のレストラン検索アプリ
 
-## Project setup
-```
-yarn install
-```
+## 言語・フレームワーク・ツール
+- JavaScript
+- Vue.js
+- Vutify
+- axios
+- ぐるなびAPI
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+### 機能
+- ぐるなびAPIとGelocationを使い現在地からのお店と距離で絞り込める
+- 初期表示は焼肉屋さんを100件取得しています。
+- 検索一覧ページ
+- 店舗の詳細ページ
 
-### Compiles and minifies for production
-```
-yarn build
-```
+[![Image from Gyazo](https://i.gyazo.com/3789798e895bed2b8e30dc80e626ea67.gif)](https://gyazo.com/3789798e895bed2b8e30dc80e626ea67)
+[![Image from Gyazo](https://i.gyazo.com/8e4550ad44ed6ba26a3441539e7ed668.gif)](https://gyazo.com/8e4550ad44ed6ba26a3441539e7ed668)
 
-### Run your unit tests
-```
-yarn test:unit
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
