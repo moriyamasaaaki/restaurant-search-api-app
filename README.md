@@ -5,6 +5,7 @@
 - Vue.js
 - Vutify
 - axios
+- Netlify
 - ぐるなびAPI
 
 ### 機能
