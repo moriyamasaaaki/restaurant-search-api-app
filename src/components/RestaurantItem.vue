@@ -10,7 +10,7 @@
       <img class="restaurant__img" v-else :src="img" alt="" />
       <div class="restaurant__body">
         <v-card-title class="restaurant__title">{{ name }}</v-card-title>
-        <v-card-text>{{ pr }}</v-card-text>
+        <v-card-text>{{ pr_text }}</v-card-text>
         <div class="restaurant__subtitle my-4 subtitle-1">{{ area }}</div>
       </div>
     </router-link>
@@ -32,7 +32,7 @@ export default {
     area: {
       type: String
     },
-    pr: {
+    pr_text: {
       type: String
     }
   }
@@ -60,6 +60,7 @@ export default {
   }
   &__subtitle {
     color: rgba(0, 0, 0, 0.6);
+    padding: 0 16px;
   }
   a {
     text-decoration: none;

@@ -18,7 +18,7 @@
     width: 100%;
     height: 100vh;
     @include tab {
-        height: 30rem;
+      height: 30rem;
     }
   }
   &__title {

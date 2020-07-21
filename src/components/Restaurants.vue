@@ -22,7 +22,7 @@
           :name="restaurant.name"
           :img="restaurant.image_url.shop_image1"
           :area="restaurant.code.areaname_s"
-          :pr="restaurant.pr.pr_short"
+          :pr_text="restaurant.pr.pr_short"
         />
       </div>
       <div class="text-center">
@@ -101,7 +101,7 @@ export default {
         .then(res => {
           setTimeout(() => {
             this.restaurants = res;
-            let url = `/restaurants/${name}/${range}/${this.latitude}/${this.longitude}`;
+            let url = `/restaurants/name/${name}/range/${range}/latitude/${this.latitude}/longitude/${this.longitude}`;
             const encoded = encodeURI(url);
             this.$router.push({ path: encoded });
             this.pageLength();
